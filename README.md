@@ -7,7 +7,7 @@ There are some subsystems ( sub-services ):
 Simulate the app using by people.
 ## 2. Officer Front End 
 Simulate the app using by the Doctor and police in white suit (MIW).
-## 3. Seven Level Router
+## 3. Layer 7 Router
 Find which app server serves which individual and routing to it. In this version, we simply use the hash of id to find it. In real business it could hold by a set of bloom filter and a set of kv NO-SQL. This routing service must start after all the app server (4). the app server could return the request by the routing service let them route to next possible server, this mechanism ensures the routing service could extend horizontally.
 ## 4. App And Data. 
 since we never need to cross query across individual, it's very simple to extend the service horizontally. once a server starts, it read all trusted data from center database (5). once fully warmed, the server join the service to serve the query and modify the exist user's data and register a new patient. 
@@ -37,8 +37,8 @@ ignoring the gate (9) in this diagram for a clear view,
 graph TD;
 
     subgraph services 
-        SevenLevelRouter-->AppAndData(App And Data);
-        AppAndData-- return -.->SevenLevelRouter;
+        Layer7Router-->AppAndData(App And Data);
+        AppAndData-- return -.->Layer7Router;
         AppAndData-- queued -->CenterDatabase[(Center Database)]
         CenterDatabase-->AppAndData
         CenterDatabase-- queued -->InterSystemSync(Inter System Sync)
@@ -46,8 +46,8 @@ graph TD;
     end
 
     subgraph front ends
-        PatientFrontEnd[Patient Front End]-->SevenLevelRouter{Seven Level Router};
-        OfficerFrontEnd[Officer Front End]-->SevenLevelRouter{Seven Level Router};
+        PatientFrontEnd[Patient Front End]-->Layer7Router{Seven Level Router};
+        OfficerFrontEnd[Officer Front End]-->Layer7Router{Seven Level Router};
         AnalyzingAndBI-->CenterDatabase
         Operation-->InterSystemSync
         Operation-->AppAndData
