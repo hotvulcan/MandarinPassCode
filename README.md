@@ -46,8 +46,8 @@ graph TD;
     end
 
     subgraph front ends
-        PatientFrontEnd[Patient Front End]-->Layer7Router{Seven Level Router};
-        OfficerFrontEnd[Officer Front End]-->Layer7Router{Seven Level Router};
+        PatientFrontEnd[Patient Front End]-->Layer7Router{Layer Seven Router};
+        OfficerFrontEnd[Officer Front End]-->Layer7Router;
         AnalyzingAndBI-->CenterDatabase
         Operation-->InterSystemSync
         Operation-->AppAndData
