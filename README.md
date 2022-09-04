@@ -23,14 +23,16 @@ This service has 4 sub service:
 Holds trusted data. using traditional method to protect the service and the data.
 ## 6. Inter-system Sync 
 ...
-## 7. Operation Interface, Analyzing and BI
+## 7. Operation Interface
+...
+## 8. Analyzing and BI
 ... 
-## 8. Gate
+## 9. Gate
    To avoid attack, the gate check the requests and drop any unknown access. The gate service runs behind traditional anti-attack mechanism to offer 7 level filter.
 
 # System Diagrams
 ## 1. Over View Diagram
-ignoring the gate (8) in this diagram for a clear view, 
+ignoring the gate (9) in this diagram for a clear view, 
 ```mermaid
 graph TD;
     PatientFrontEnd[Patient Front End]-->SevenLevelRouter{Seven Level Router};
