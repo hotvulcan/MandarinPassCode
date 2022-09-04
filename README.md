@@ -35,17 +35,28 @@ Holds trusted data. using traditional method to protect the service and the data
 ignoring the gate (9) in this diagram for a clear view, 
 ```mermaid
 graph TD;
-    PatientFrontEnd[Patient Front End]-->SevenLevelRouter{Seven Level Router};
-    OfficerFrontEnd[Officer Front End]-->SevenLevelRouter{Seven Level Router};
-    SevenLevelRouter-->AppAndData(App And Data);
-    AppAndData-- return -.->SevenLevelRouter;
-    AppAndData-- queued -->CenterDatabase[(Center Database)]
-    CenterDatabase-->AppAndData
-    CenterDatabase-- queued -->InterSystemSync(Inter System Sync)
-    InterSystemSync-- queued -->CenterDatabase
-    AnalyzingAndBI-->CenterDatabase
-    Operation-->AppAndData
-    Operation[operation interfaces]-->CenterDatabase
-    Operation-->InterSystemSync
 
+    subgraph services 
+        SevenLevelRouter-->AppAndData(App And Data);
+        AppAndData-- return -.->SevenLevelRouter;
+        AppAndData-- queued -->CenterDatabase[(Center Database)]
+        CenterDatabase-->AppAndData
+        CenterDatabase-- queued -->InterSystemSync(Inter System Sync)
+        InterSystemSync-- queued -->CenterDatabase
+    end
+
+    subgraph front ends
+        PatientFrontEnd[Patient Front End]-->SevenLevelRouter{Seven Level Router};
+        OfficerFrontEnd[Officer Front End]-->SevenLevelRouter{Seven Level Router};
+        AnalyzingAndBI-->CenterDatabase
+        Operation-->InterSystemSync
+        Operation-->AppAndData
+        Operation[operation interfaces]-->CenterDatabase
+        
+    end 
+
+    subgraph outer [outer system]
+        OuterServers-->InterSystemSync
+        InterSystemSync-->OuterServers 
+    end 
 ```
